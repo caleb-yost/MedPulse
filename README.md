@@ -18,8 +18,10 @@ MedPulse is a Progressive Web App (PWA) designed to help patients with chronic i
 - **Dashboard Stats** — at-a-glance summary of doses taken, remaining, and adherence rate
 - **History & Logs** — full record of past medication activity
 - **Import / Export** — back up or transfer your medication data
+- **Adherence Calendar** — expandable month-view calendar with color-coded adherence history and per-day dose breakdowns
 - **Smart Reminders** — real-time reminder banners when a dose is due
 - **PWA Installable** — works offline and installs to your home screen on any device
+- **Demo Mode** — one-click demo that loads a realistic patient profile (medications, schedules, and two weeks of history) so you can explore the full app without entering any data; toggled off just as easily
 
 ## Tech Stack
 
