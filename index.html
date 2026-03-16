@@ -266,7 +266,9 @@
     box-shadow: 0 2px 8px rgba(13,31,53,0.06);
   }
 
+  .stat-card[onclick] { cursor: pointer; }
   .stat-card:hover { border-color: var(--border2); box-shadow: 0 4px 16px rgba(13,31,53,0.10); }
+  .stat-card:active { transform: translateY(1px); }
 
   .stat-card::before {
     content: '';
@@ -854,6 +856,230 @@
   .notif.warning { border-left: 3px solid var(--amber); }
   .notif.info { border-left: 3px solid var(--accent); }
 
+  /* ===== DEMO BANNER ===== */
+  .demo-banner {
+    background: linear-gradient(90deg, #0d2b4b, #1a4a7a);
+    border-bottom: 1px solid rgba(126,200,227,0.25);
+    padding: 10px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .demo-banner-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .demo-pill {
+    background: #7ec8e3;
+    color: #0d2b4b;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 3px 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .demo-banner-text {
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+  }
+
+  .demo-banner-text strong { color: #fff; }
+
+  .btn-exit-demo {
+    background: rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.9);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 6px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .btn-exit-demo:hover { background: rgba(255,255,255,0.2); color: #fff; }
+
+  /* Demo button in topbar — more prominent */
+  .btn-demo {
+    background: rgba(13,94,166,0.1);
+    color: var(--accent);
+    border: 1.5px dashed var(--accent);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .btn-demo:hover { background: var(--accent-glow); border-style: solid; }
+
+  /* ===== INFO PANEL ===== */
+  .info-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(3px);
+    z-index: 500;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0;
+  }
+
+  @media (min-width: 769px) {
+    .info-overlay { align-items: center; padding: 20px; }
+  }
+
+  .info-overlay.open { display: flex; }
+
+  .info-panel {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    width: 100%;
+    max-width: 420px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    animation: infoPanelIn 0.22s cubic-bezier(0.34,1.4,0.64,1);
+    border-radius: 16px 16px 0 0;
+  }
+
+  @media (min-width: 769px) {
+    .info-panel { border-radius: 16px; }
+  }
+
+  @keyframes infoPanelIn {
+    from { opacity: 0; transform: translateY(16px) scale(0.98); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .info-panel-header {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .info-panel-title-wrap { display: flex; align-items: center; gap: 10px; }
+
+  .info-panel-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .info-panel-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .info-panel-body {
+    padding: 16px 20px;
+    overflow-y: auto;
+    flex: 1;
+  }
+
+  .info-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .info-row:last-child { border-bottom: none; }
+
+  .info-row-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .info-row-main { flex: 1; min-width: 0; }
+  .info-row-name { font-size: 14px; font-weight: 500; color: var(--text); }
+  .info-row-sub { font-size: 11px; color: var(--text3); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+
+  .info-row-badge {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 9px;
+    border-radius: 20px;
+    flex-shrink: 0;
+  }
+
+  .info-row-badge.taken { background: var(--green-dim); color: var(--green); }
+  .info-row-badge.missed { background: var(--red-dim); color: var(--red); }
+  .info-row-badge.pending { background: var(--amber-dim); color: var(--amber); }
+
+  .info-empty {
+    text-align: center;
+    padding: 28px 16px;
+    color: var(--text3);
+    font-size: 13px;
+  }
+
+  .info-streak-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .streak-cell {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    background: var(--surface2);
+    border: 1px solid var(--border);
+  }
+
+  .streak-cell.taken { background: var(--green-dim); color: var(--green); border-color: rgba(12,122,85,0.2); }
+  .streak-cell.missed { background: var(--red-dim); color: var(--red); border-color: rgba(192,21,48,0.2); }
+  .streak-cell.future { opacity: 0.4; }
+
+  .streak-stat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 12px;
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    margin-bottom: 16px;
+  }
+
+  .streak-stat-item { text-align: center; }
+  .streak-stat-num { font-family: 'Source Serif 4', serif; font-size: 26px; font-weight: 700; }
+  .streak-stat-lbl { font-size: 10px; color: var(--text3); font-family: 'JetBrains Mono', monospace; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+
   /* ===== PROGRESS RING ===== */
   .ring-wrap {
     display: flex;
@@ -1276,6 +1502,22 @@
 <!-- Notification container -->
 <div class="notif-container" id="notifContainer"></div>
 
+<!-- Info Panel -->
+<div class="info-overlay" id="infoOverlay" onclick="closeInfoPanel()">
+  <div class="info-panel" onclick="event.stopPropagation()">
+    <div class="info-panel-header">
+      <div class="info-panel-title-wrap">
+        <div class="info-panel-icon" id="infoPanelIcon"></div>
+        <div class="info-panel-title" id="infoPanelTitle"></div>
+      </div>
+      <button class="modal-close" onclick="closeInfoPanel()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="info-panel-body" id="infoPanelBody"></div>
+  </div>
+</div>
+
 <!-- Reminder banner container -->
 <div id="reminderContainer" style="position:fixed;top:68px;left:50%;transform:translateX(-50%);z-index:9998;display:flex;flex-direction:column;gap:8px;width:100%;max-width:700px;padding:0 16px;pointer-events:none"></div>
 
@@ -1469,15 +1711,24 @@
       </div>
       <div class="topbar-right">
         <div class="time-display" id="clockDisplay">--:--:--</div>
-        <button class="btn btn-ghost" id="demoBtn" onclick="loadDemoData()" title="Load sample medications and history to preview the app">Load Demo</button>
+        <button class="btn-demo" id="demoBtn" onclick="enterDemoMode()"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg> Try Demo</button>
         <button class="btn btn-primary" onclick="openModal()">+ Add Med</button>
       </div>
+    </div>
+
+    <!-- Demo banner (shown when demo mode is active) -->
+    <div class="demo-banner" id="demoBanner" style="display:none">
+      <div class="demo-banner-left">
+        <span class="demo-pill">Demo</span>
+        <span class="demo-banner-text"><strong>Demo Mode</strong> — Viewing sample patient data. No real medications are tracked.</span>
+      </div>
+      <button class="btn-exit-demo" onclick="exitDemoMode()">Exit Demo</button>
     </div>
 
     <!-- DASHBOARD PAGE -->
     <div class="page active" id="page-dashboard">
       <div class="stats-row">
-        <div class="stat-card blue">
+        <div class="stat-card blue" onclick="openInfoPanel('total')">
           <div class="stat-header">
             <div class="stat-label">Total Medications</div>
             <div class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg></div>
@@ -1485,7 +1736,7 @@
           <div class="stat-value" id="statTotal">0</div>
           <div class="stat-sub">in your regimen</div>
         </div>
-        <div class="stat-card green">
+        <div class="stat-card green" onclick="openInfoPanel('taken')">
           <div class="stat-header">
             <div class="stat-label">Taken Today</div>
             <div class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
@@ -1493,7 +1744,7 @@
           <div class="stat-value" id="statTaken">0</div>
           <div class="stat-sub" id="statTakenSub">of 0 doses</div>
         </div>
-        <div class="stat-card amber">
+        <div class="stat-card amber" onclick="openInfoPanel('pending')">
           <div class="stat-header">
             <div class="stat-label">Pending Today</div>
             <div class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
@@ -1501,7 +1752,7 @@
           <div class="stat-value" id="statPending">0</div>
           <div class="stat-sub">doses remaining</div>
         </div>
-        <div class="stat-card purple">
+        <div class="stat-card purple" onclick="openInfoPanel('streak')">
           <div class="stat-header">
             <div class="stat-label">Streak</div>
             <div class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
@@ -2545,13 +2796,174 @@ function resetApp() {
   showNotif('info', '🔄', 'App Reset', 'All data has been cleared');
 }
 
+// ===== INFO PANEL =====
+function openInfoPanel(type) {
+  const overlay = document.getElementById('infoOverlay');
+  const title = document.getElementById('infoPanelTitle');
+  const icon = document.getElementById('infoPanelIcon');
+  const body = document.getElementById('infoPanelBody');
+  const today = todayKey();
+  const todayLogs = logs.filter(l => l.date === today);
+
+  const configs = {
+    total: {
+      label: 'All Medications',
+      iconBg: 'rgba(13,94,166,0.1)', iconColor: 'var(--accent)',
+      iconSvg: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg>'
+    },
+    taken: {
+      label: 'Taken Today',
+      iconBg: 'var(--green-dim)', iconColor: 'var(--green)',
+      iconSvg: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>'
+    },
+    pending: {
+      label: 'Pending Today',
+      iconBg: 'var(--amber-dim)', iconColor: 'var(--amber)',
+      iconSvg: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'
+    },
+    streak: {
+      label: 'Adherence History',
+      iconBg: 'rgba(78,61,153,0.1)', iconColor: 'var(--purple)',
+      iconSvg: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>'
+    }
+  };
+
+  const cfg = configs[type];
+  title.textContent = cfg.label;
+  icon.style.background = cfg.iconBg;
+  icon.style.color = cfg.iconColor;
+  icon.innerHTML = cfg.iconSvg;
+
+  if (type === 'total') {
+    if (medications.length === 0) {
+      body.innerHTML = `<div class="info-empty">No medications added yet.<br><br><button class="btn btn-primary" onclick="closeInfoPanel();openModal()">+ Add Medication</button></div>`;
+    } else {
+      body.innerHTML = medications.map(m => {
+        const timesStr = m.times.length ? m.times.map(fmt12).join(', ') : 'As needed';
+        return `<div class="info-row">
+          <div class="info-row-dot" style="background:${m.color}"></div>
+          <div class="info-row-main">
+            <div class="info-row-name">${m.name}</div>
+            <div class="info-row-sub">${m.dose} · ${m.form} · ${m.freq} · ${timesStr}</div>
+          </div>
+          <div class="info-row-badge pending">${m.times.length} dose${m.times.length !== 1 ? 's' : ''}/day</div>
+        </div>`;
+      }).join('');
+    }
+  } else if (type === 'taken') {
+    const takenLogs = todayLogs.filter(l => l.status === 'taken');
+    if (takenLogs.length === 0) {
+      body.innerHTML = `<div class="info-empty">No doses logged yet today.</div>`;
+    } else {
+      const sorted = [...takenLogs].sort((a, b) => a.time.localeCompare(b.time));
+      body.innerHTML = sorted.map(l => `
+        <div class="info-row">
+          <div class="info-row-dot" style="background:${(medications.find(m=>m.id===l.medId)||{}).color||'var(--green)'}"></div>
+          <div class="info-row-main">
+            <div class="info-row-name">${l.name}</div>
+            <div class="info-row-sub">${l.dose} · logged ${fmt12(l.time)}</div>
+          </div>
+          <div class="info-row-badge taken">Taken</div>
+        </div>`).join('');
+    }
+  } else if (type === 'pending') {
+    let doses = [];
+    medications.forEach(med => {
+      med.times.forEach(t => {
+        const logKey = `${today}-${med.id}-${t}`;
+        const log = logs.find(l => l.key === logKey);
+        if (!log || log.status === 'pending') {
+          doses.push({ med, time: t });
+        }
+      });
+    });
+    doses.sort((a, b) => a.time.localeCompare(b.time));
+    if (doses.length === 0) {
+      body.innerHTML = `<div class="info-empty">All caught up — no pending doses today! 🎉</div>`;
+    } else {
+      body.innerHTML = doses.map(d => `
+        <div class="info-row">
+          <div class="info-row-dot" style="background:${d.med.color}"></div>
+          <div class="info-row-main">
+            <div class="info-row-name">${d.med.name}</div>
+            <div class="info-row-sub">${d.med.dose} · due ${fmt12(d.time)}</div>
+          </div>
+          <div class="info-row-badge pending">Pending</div>
+        </div>`).join('');
+    }
+  } else if (type === 'streak') {
+    const streak = calcStreak();
+    const totalDoses = medications.reduce((s, m) => s + m.times.length, 0);
+    // Build last 14 days
+    const days = [];
+    for (let i = 13; i >= 0; i--) {
+      const d = new Date(); d.setDate(d.getDate() - i);
+      days.push(d);
+    }
+    const gridHTML = days.map(d => {
+      const key = dateKey(d);
+      const isFuture = key > todayKey();
+      if (isFuture) return `<div class="streak-cell future">${d.getDate()}</div>`;
+      const dayLogs = logs.filter(l => l.date === key);
+      const taken = dayLogs.filter(l => l.status === 'taken').length;
+      const cls = totalDoses === 0 ? '' : (taken >= totalDoses ? 'taken' : (taken > 0 ? 'taken' : 'missed'));
+      return `<div class="streak-cell ${cls}" title="${d.toLocaleDateString('en-US',{month:'short',day:'numeric'})}">${d.getDate()}</div>`;
+    }).join('');
+
+    const takenDays = days.filter(d => {
+      const key = dateKey(d); if (key > todayKey()) return false;
+      const taken = logs.filter(l => l.date === key && l.status === 'taken').length;
+      return totalDoses > 0 && taken >= totalDoses;
+    }).length;
+
+    body.innerHTML = `
+      <div class="streak-stat">
+        <div class="streak-stat-item">
+          <div class="streak-stat-num" style="color:var(--purple)">${streak}</div>
+          <div class="streak-stat-lbl">Day Streak</div>
+        </div>
+        <div style="width:1px;height:40px;background:var(--border)"></div>
+        <div class="streak-stat-item">
+          <div class="streak-stat-num" style="color:var(--green)">${takenDays}</div>
+          <div class="streak-stat-lbl">Perfect Days (14d)</div>
+        </div>
+        <div style="width:1px;height:40px;background:var(--border)"></div>
+        <div class="streak-stat-item">
+          <div class="streak-stat-num" style="color:var(--accent)">${totalDoses > 0 ? Math.round(takenDays / 14 * 100) : 0}%</div>
+          <div class="streak-stat-lbl">14-Day Rate</div>
+        </div>
+      </div>
+      <div class="streak-stat-lbl" style="margin-bottom:8px;padding-left:2px">Last 14 Days</div>
+      <div class="info-streak-grid">${gridHTML}</div>
+      <div style="display:flex;gap:12px;font-size:11px;color:var(--text3)">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--green-dim);border:1px solid rgba(12,122,85,0.2);border-radius:2px;display:inline-block"></span>Perfect day</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;background:var(--red-dim);border:1px solid rgba(192,21,48,0.2);border-radius:2px;display:inline-block"></span>Missed doses</span>
+      </div>`;
+  }
+
+  overlay.classList.add('open');
+}
+
+function closeInfoPanel() {
+  document.getElementById('infoOverlay').classList.remove('open');
+}
+
 // ===== DEMO DATA =====
 function updateDemoBtn() {
   const btn = document.getElementById('demoBtn');
-  if (btn) btn.style.display = medications.length === 0 ? '' : 'none';
+  if (btn) btn.style.display = (medications.length === 0 && localStorage.getItem('demoMode') !== '1') ? '' : 'none';
 }
 
-function loadDemoData() {
+function exitDemoMode() {
+  medications = []; logs = [];
+  localStorage.removeItem('demoMode');
+  save();
+  renderAll();
+  document.getElementById('demoBanner').style.display = 'none';
+  showNotif('info', '', 'Demo exited', 'All sample data has been cleared');
+}
+
+function enterDemoMode() {
   const today = new Date();
   medications = [
     { id: 'demo1', name: 'Lisinopril', dose: '10mg', form: 'Tablet', freq: 'Daily', times: ['08:00'], color: '#1a6fa8', notes: 'Take on empty stomach with water', active: true },
@@ -2585,8 +2997,10 @@ function loadDemoData() {
     });
   });
   save();
+  localStorage.setItem('demoMode', '1');
   renderAll();
-  showNotif('success', '✅', 'Demo loaded!', '4 medications · 2 weeks of history added');
+  document.getElementById('demoBanner').style.display = 'flex';
+  showNotif('success', '', 'Demo mode on', '4 medications · 2 weeks of history loaded');
 }
 
 // ===== REMINDERS =====
@@ -2712,6 +3126,10 @@ renderSettings();
 // Set initial greeting
 document.getElementById('pageTitle').textContent = getGreeting();
 document.getElementById('pageSubtitle').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+// Restore demo banner if demo mode was active
+if (localStorage.getItem('demoMode') === '1') {
+  document.getElementById('demoBanner').style.display = 'flex';
+}
 
 // PWA install hint
 window.addEventListener('beforeinstallprompt', (e) => {
