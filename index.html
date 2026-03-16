@@ -1131,6 +1131,224 @@
   .drop-title { font-family: 'Source Serif 4', serif; font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
   .drop-sub { font-size: 13px; color: var(--text3); }
 
+  /* ===== FULL CALENDAR MODAL ===== */
+  .cal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(4px);
+    z-index: 600;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .cal-overlay.open { display: flex; }
+
+  .cal-modal {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 16px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+    animation: modalIn 0.22s cubic-bezier(0.34,1.4,0.64,1);
+    overflow: hidden;
+  }
+
+  .cal-modal-header {
+    padding: 18px 20px 14px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .cal-modal-title {
+    font-family: 'Source Serif 4', serif;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .cal-modal-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .cal-nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 20px 10px;
+    flex-shrink: 0;
+  }
+
+  .cal-month-label {
+    font-family: 'Source Serif 4', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .cal-nav-btns { display: flex; gap: 6px; }
+
+  .cal-nav-btn {
+    width: 32px; height: 32px;
+    border-radius: 6px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text2);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.12s;
+  }
+  .cal-nav-btn:hover { background: var(--surface3); color: var(--text); }
+
+  .cal-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding: 0 20px;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .cal-weekday-lbl {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text3);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    padding: 4px 0;
+  }
+
+  .cal-full-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    padding: 4px 20px 12px;
+    flex-shrink: 0;
+  }
+
+  .cal-full-day {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all 0.12s;
+    background: var(--surface2);
+    position: relative;
+  }
+
+  .cal-full-day.empty-slot {
+    background: transparent;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .cal-full-day.future { opacity: 0.45; cursor: default; }
+
+  .cal-full-day.perfect { background: var(--green-dim); border-color: rgba(12,122,85,0.15); }
+  .cal-full-day.partial { background: var(--amber-dim); border-color: rgba(168,92,10,0.15); }
+  .cal-full-day.all-missed { background: var(--red-dim); border-color: rgba(192,21,48,0.15); }
+  .cal-full-day.no-data { background: var(--surface2); }
+
+  .cal-full-day:not(.empty-slot):not(.future):hover { border-color: var(--border2); transform: scale(1.06); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+
+  .cal-full-day.selected { border-color: var(--accent) !important; box-shadow: 0 0 0 2px var(--accent-glow); }
+
+  .cal-day-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1;
+  }
+
+  .cal-full-day.perfect .cal-day-num { color: var(--green); }
+  .cal-full-day.partial .cal-day-num { color: var(--amber); }
+  .cal-full-day.all-missed .cal-day-num { color: var(--red); }
+  .cal-full-day.no-data .cal-day-num { color: var(--text3); }
+  .cal-full-day.future .cal-day-num { color: var(--text3); }
+
+  .cal-day-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    margin-top: 3px;
+  }
+
+  .cal-full-day.perfect .cal-day-dot { background: var(--green); }
+  .cal-full-day.partial .cal-day-dot { background: var(--amber); }
+  .cal-full-day.all-missed .cal-day-dot { background: var(--red); }
+  .cal-full-day.no-data .cal-day-dot, .cal-full-day.future .cal-day-dot { display: none; }
+
+  .cal-today-ring {
+    position: absolute;
+    inset: -1px;
+    border-radius: 8px;
+    border: 2px solid var(--accent);
+    pointer-events: none;
+  }
+
+  .cal-detail {
+    border-top: 1px solid var(--border);
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  .cal-detail-header {
+    padding: 12px 20px 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .cal-detail-date {
+    font-family: 'Source Serif 4', serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .cal-detail-rate {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text3);
+  }
+
+  .cal-detail-list { padding: 0 20px 16px; }
+
+  .cal-detail-empty {
+    padding: 20px;
+    text-align: center;
+    color: var(--text3);
+    font-size: 13px;
+  }
+
+  .cal-legend {
+    display: flex;
+    gap: 12px;
+    padding: 0 20px 12px;
+    font-size: 11px;
+    color: var(--text3);
+    flex-shrink: 0;
+    flex-wrap: wrap;
+  }
+
+  .cal-legend span { display: flex; align-items: center; gap: 4px; }
+  .cal-legend-dot { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+
   /* ===== SCROLLBAR ===== */
   ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: transparent; }
@@ -1518,6 +1736,47 @@
   </div>
 </div>
 
+<!-- Full Calendar Modal -->
+<div class="cal-overlay" id="calOverlay" onclick="closeCalendar()">
+  <div class="cal-modal" onclick="event.stopPropagation()">
+    <div class="cal-modal-header">
+      <div class="cal-modal-title">Adherence Calendar</div>
+      <button class="modal-close" onclick="closeCalendar()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+    <div class="cal-modal-body">
+      <div class="cal-nav-row">
+        <div class="cal-month-label" id="calMonthLabel"></div>
+        <div class="cal-nav-btns">
+          <button class="cal-nav-btn" onclick="calShiftMonth(-1)" title="Previous month">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="cal-nav-btn" onclick="calShiftMonth(1)" title="Next month">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="cal-weekdays">
+        <div class="cal-weekday-lbl">Sun</div><div class="cal-weekday-lbl">Mon</div>
+        <div class="cal-weekday-lbl">Tue</div><div class="cal-weekday-lbl">Wed</div>
+        <div class="cal-weekday-lbl">Thu</div><div class="cal-weekday-lbl">Fri</div>
+        <div class="cal-weekday-lbl">Sat</div>
+      </div>
+      <div class="cal-full-grid" id="calFullGrid"></div>
+      <div class="cal-legend">
+        <span><span class="cal-legend-dot" style="background:var(--green-dim);border:1px solid rgba(12,122,85,0.2)"></span>All taken</span>
+        <span><span class="cal-legend-dot" style="background:var(--amber-dim);border:1px solid rgba(168,92,10,0.15)"></span>Partial</span>
+        <span><span class="cal-legend-dot" style="background:var(--red-dim);border:1px solid rgba(192,21,48,0.2)"></span>Missed</span>
+        <span><span class="cal-legend-dot" style="background:var(--surface2);border:1px solid var(--border)"></span>No data</span>
+      </div>
+      <div class="cal-detail" id="calDetail">
+        <div class="cal-detail-empty">Select a day to see dose details</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Reminder banner container -->
 <div id="reminderContainer" style="position:fixed;top:68px;left:50%;transform:translateX(-50%);z-index:9998;display:flex;flex-direction:column;gap:8px;width:100%;max-width:700px;padding:0 16px;pointer-events:none"></div>
 
@@ -1809,6 +2068,9 @@
           <div class="card">
             <div class="card-header">
               <div class="card-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg> Last 7 Days</div>
+              <button class="icon-btn" onclick="openCalendar()" title="View full calendar history" style="width:28px;height:28px;font-size:11px">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+              </button>
             </div>
             <div class="card-body">
               <div class="mini-cal" id="miniCal"></div>
@@ -2794,6 +3056,125 @@ function resetApp() {
   save();
   renderAll();
   showNotif('info', '🔄', 'App Reset', 'All data has been cleared');
+}
+
+// ===== FULL CALENDAR =====
+let calYear, calMonth, calSelectedDate = null;
+
+function openCalendar() {
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth();
+  calSelectedDate = null;
+  document.getElementById('calDetail').innerHTML = '<div class="cal-detail-empty">Select a day to see dose details</div>';
+  renderCalendarGrid();
+  document.getElementById('calOverlay').classList.add('open');
+}
+
+function closeCalendar() {
+  document.getElementById('calOverlay').classList.remove('open');
+}
+
+function calShiftMonth(dir) {
+  calMonth += dir;
+  if (calMonth > 11) { calMonth = 0; calYear++; }
+  if (calMonth < 0)  { calMonth = 11; calYear--; }
+  calSelectedDate = null;
+  document.getElementById('calDetail').innerHTML = '<div class="cal-detail-empty">Select a day to see dose details</div>';
+  renderCalendarGrid();
+}
+
+function renderCalendarGrid() {
+  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('calMonthLabel').textContent = `${monthNames[calMonth]} ${calYear}`;
+
+  const today = todayKey();
+  const totalDoses = medications.reduce((s, m) => s + m.times.length, 0);
+  const firstDay = new Date(calYear, calMonth, 1).getDay(); // 0=Sun
+  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+
+  let html = '';
+  // Empty leading slots
+  for (let i = 0; i < firstDay; i++) html += '<div class="cal-full-day empty-slot"></div>';
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const key = `${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isFuture = key > today;
+    const isToday = key === today;
+    const isSelected = key === calSelectedDate;
+
+    let cls = 'no-data';
+    if (!isFuture && totalDoses > 0) {
+      const dayLogs = logs.filter(l => l.date === key);
+      const taken = dayLogs.filter(l => l.status === 'taken').length;
+      const missed = dayLogs.filter(l => l.status === 'missed').length;
+      if (taken >= totalDoses) cls = 'perfect';
+      else if (taken > 0) cls = 'partial';
+      else if (missed > 0) cls = 'all-missed';
+    }
+    if (isFuture) cls = 'future';
+
+    html += `<div class="cal-full-day ${cls}${isSelected ? ' selected' : ''}" onclick="selectCalDay('${key}')">
+      ${isToday ? '<div class="cal-today-ring"></div>' : ''}
+      <div class="cal-day-num">${d}</div>
+      <div class="cal-day-dot"></div>
+    </div>`;
+  }
+
+  document.getElementById('calFullGrid').innerHTML = html;
+}
+
+function selectCalDay(key) {
+  calSelectedDate = key;
+  // Re-render grid to update selected state
+  renderCalendarGrid();
+
+  const today = todayKey();
+  const isFuture = key > today;
+  const date = new Date(key + 'T12:00:00');
+  const dateLabel = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  const totalDoses = medications.reduce((s, m) => s + m.times.length, 0);
+
+  let detailHTML = `<div class="cal-detail-header"><div class="cal-detail-date">${dateLabel}</div>`;
+
+  if (!isFuture && totalDoses > 0) {
+    const dayLogs = logs.filter(l => l.date === key);
+    const taken = dayLogs.filter(l => l.status === 'taken').length;
+    const pct = Math.round(taken / totalDoses * 100);
+    detailHTML += `<div class="cal-detail-rate" style="color:${pct===100?'var(--green)':pct>0?'var(--amber)':'var(--red)'}">${pct}% adherence</div>`;
+  }
+  detailHTML += '</div><div class="cal-detail-list">';
+
+  if (medications.length === 0) {
+    detailHTML += '<div class="cal-detail-empty">No medications in your regimen.</div>';
+  } else {
+    medications.forEach(med => {
+      med.times.forEach(t => {
+        const logKey = `${key}-${med.id}-${t}`;
+        const log = logs.find(l => l.key === logKey);
+        let status = 'pending', badgeCls = 'pending', badgeLabel = 'Pending';
+        if (isFuture) { badgeLabel = 'Scheduled'; }
+        else if (log) {
+          status = log.status;
+          badgeCls = log.status;
+          badgeLabel = log.status === 'taken' ? 'Taken' : 'Missed';
+        } else if (key < today) {
+          badgeCls = 'missed'; badgeLabel = 'No log';
+        }
+        detailHTML += `<div class="info-row">
+          <div class="info-row-dot" style="background:${med.color}"></div>
+          <div class="info-row-main">
+            <div class="info-row-name">${med.name}</div>
+            <div class="info-row-sub">${med.dose} · ${med.form} · ${fmt12(t)}</div>
+          </div>
+          <div class="info-row-badge ${badgeCls}">${badgeLabel}</div>
+        </div>`;
+      });
+    });
+  }
+
+  detailHTML += '</div>';
+  document.getElementById('calDetail').innerHTML = detailHTML;
 }
 
 // ===== INFO PANEL =====
