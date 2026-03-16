@@ -125,9 +125,10 @@
 
   .nav-item.active {
     background: rgba(255,255,255,0.12);
-    border-color: rgba(255,255,255,0.15);
+    border-color: transparent;
     color: #ffffff;
     font-weight: 500;
+    box-shadow: inset 3px 0 0 #7ec8e3;
   }
 
   .nav-item .icon { width: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: inherit; }
@@ -176,6 +177,15 @@
     font-size: 19px;
     font-weight: 600;
     color: var(--text);
+    line-height: 1.2;
+  }
+
+  .page-subtitle {
+    font-size: 12px;
+    color: var(--text3);
+    font-family: 'Inter', sans-serif;
+    margin-top: 1px;
+    line-height: 1;
   }
 
   .topbar-right { display: flex; align-items: center; gap: 12px; }
@@ -252,10 +262,11 @@
     padding: 20px;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.2s;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-shadow: 0 2px 8px rgba(13,31,53,0.06);
   }
 
-  .stat-card:hover { border-color: var(--border2); }
+  .stat-card:hover { border-color: var(--border2); box-shadow: 0 4px 16px rgba(13,31,53,0.10); }
 
   .stat-card::before {
     content: '';
@@ -269,6 +280,25 @@
   .stat-card.amber::before { background: linear-gradient(90deg, var(--amber), transparent); }
   .stat-card.purple::before { background: linear-gradient(90deg, var(--purple), transparent); }
 
+  .stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+  }
+
+  .stat-icon {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .stat-card.blue .stat-icon { background: rgba(13,94,166,0.1); color: var(--accent); }
+  .stat-card.green .stat-icon { background: var(--green-dim); color: var(--green); }
+  .stat-card.amber .stat-icon { background: var(--amber-dim); color: var(--amber); }
+  .stat-card.purple .stat-icon { background: rgba(78,61,153,0.1); color: var(--purple); }
+
   .stat-label {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -276,7 +306,6 @@
     color: var(--text3);
     letter-spacing: 0.8px;
     text-transform: uppercase;
-    margin-bottom: 10px;
   }
 
   .stat-value {
@@ -305,6 +334,7 @@
     border: 1px solid var(--border);
     border-radius: var(--radius);
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(13,31,53,0.06);
   }
 
   .card-header {
@@ -1432,10 +1462,14 @@
     <div class="topbar">
       <div class="topbar-left">
         <button class="hamburger" onclick="toggleSidebar()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="18" y2="18"/></svg></button>
-        <div class="page-title" id="pageTitle">Dashboard</div>
+        <div>
+          <div class="page-title" id="pageTitle">Dashboard</div>
+          <div class="page-subtitle" id="pageSubtitle"></div>
+        </div>
       </div>
       <div class="topbar-right">
         <div class="time-display" id="clockDisplay">--:--:--</div>
+        <button class="btn btn-ghost" id="demoBtn" onclick="loadDemoData()" title="Load sample medications and history to preview the app">Load Demo</button>
         <button class="btn btn-primary" onclick="openModal()">+ Add Med</button>
       </div>
     </div>
@@ -1444,22 +1478,34 @@
     <div class="page active" id="page-dashboard">
       <div class="stats-row">
         <div class="stat-card blue">
-          <div class="stat-label">Total Medications</div>
+          <div class="stat-header">
+            <div class="stat-label">Total Medications</div>
+            <div class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></svg></div>
+          </div>
           <div class="stat-value" id="statTotal">0</div>
           <div class="stat-sub">in your regimen</div>
         </div>
         <div class="stat-card green">
-          <div class="stat-label">Taken Today</div>
+          <div class="stat-header">
+            <div class="stat-label">Taken Today</div>
+            <div class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          </div>
           <div class="stat-value" id="statTaken">0</div>
           <div class="stat-sub" id="statTakenSub">of 0 doses</div>
         </div>
         <div class="stat-card amber">
-          <div class="stat-label">Pending Today</div>
+          <div class="stat-header">
+            <div class="stat-label">Pending Today</div>
+            <div class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          </div>
           <div class="stat-value" id="statPending">0</div>
           <div class="stat-sub">doses remaining</div>
         </div>
         <div class="stat-card purple">
-          <div class="stat-label">Streak</div>
+          <div class="stat-header">
+            <div class="stat-label">Streak</div>
+            <div class="stat-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          </div>
           <div class="stat-value" id="statStreak">0</div>
           <div class="stat-sub">days perfect</div>
         </div>
@@ -1728,13 +1774,24 @@ function save() {
 }
 
 // ===== NAVIGATION =====
+function getGreeting() {
+  const h = new Date().getHours();
+  if (h < 12) return 'Good morning';
+  if (h < 17) return 'Good afternoon';
+  return 'Good evening';
+}
+
 function goPage(page, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + page).classList.add('active');
   if (el) el.classList.add('active');
-  const titles = { dashboard: 'Dashboard', medications: 'Medications', history: 'History & Logs', data: 'Import / Export', settings: 'Settings' };
+  const titles = { dashboard: getGreeting(), medications: 'Medications', history: 'History & Logs', data: 'Import / Export', settings: 'Settings' };
+  const now = new Date();
+  const dateStr = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  const subtitles = { dashboard: dateStr, medications: '', history: '', data: '', settings: '' };
   document.getElementById('pageTitle').textContent = titles[page] || page;
+  document.getElementById('pageSubtitle').textContent = subtitles[page] || '';
   if (page === 'history') renderHistory();
   if (page === 'data') renderCSVPreview();
   if (page === 'settings') renderSettings();
@@ -2172,6 +2229,7 @@ function renderAll() {
   renderDashboard();
   renderMedsGrid();
   renderHistoryFilters();
+  updateDemoBtn();
 }
 
 function renderMedCount() {
@@ -2487,6 +2545,50 @@ function resetApp() {
   showNotif('info', '🔄', 'App Reset', 'All data has been cleared');
 }
 
+// ===== DEMO DATA =====
+function updateDemoBtn() {
+  const btn = document.getElementById('demoBtn');
+  if (btn) btn.style.display = medications.length === 0 ? '' : 'none';
+}
+
+function loadDemoData() {
+  const today = new Date();
+  medications = [
+    { id: 'demo1', name: 'Lisinopril', dose: '10mg', form: 'Tablet', freq: 'Daily', times: ['08:00'], color: '#1a6fa8', notes: 'Take on empty stomach with water', active: true },
+    { id: 'demo2', name: 'Atorvastatin', dose: '40mg', form: 'Tablet', freq: 'Daily', times: ['21:00'], color: '#1a7a5e', notes: 'Take at bedtime', active: true },
+    { id: 'demo3', name: 'Metformin', dose: '500mg', form: 'Tablet', freq: 'Twice Daily', times: ['08:00', '18:00'], color: '#5b4ea0', notes: 'Take with meals to reduce GI upset', active: true },
+    { id: 'demo4', name: 'Aspirin', dose: '81mg', form: 'Tablet', freq: 'Daily', times: ['08:00'], color: '#b91c3c', notes: 'Enteric coated — do not crush or chew', active: true }
+  ];
+  logs = [];
+  for (let d = 13; d >= 1; d--) {
+    const date = new Date(today);
+    date.setDate(date.getDate() - d);
+    const dateStr = dateKey(date);
+    medications.forEach(med => {
+      med.times.forEach(t => {
+        const isMissed = Math.random() < 0.1; // 90% adherence rate
+        const status = isMissed ? 'missed' : 'taken';
+        const logKey = `${dateStr}-${med.id}-${t}`;
+        logs.push({ key: logKey, date: dateStr, medId: med.id, time: t, name: med.name, dose: med.dose, status, ts: date.getTime() });
+      });
+    });
+  }
+  // Today: mark morning doses taken, leave evening pending
+  const todayStr = todayKey();
+  const nowHHMM = `${String(today.getHours()).padStart(2,'0')}:${String(today.getMinutes()).padStart(2,'0')}`;
+  medications.forEach(med => {
+    med.times.forEach(t => {
+      if (t <= nowHHMM) {
+        const logKey = `${todayStr}-${med.id}-${t}`;
+        logs.push({ key: logKey, date: todayStr, medId: med.id, time: t, name: med.name, dose: med.dose, status: 'taken', ts: Date.now() });
+      }
+    });
+  });
+  save();
+  renderAll();
+  showNotif('success', '✅', 'Demo loaded!', '4 medications · 2 weeks of history added');
+}
+
 // ===== REMINDERS =====
 let notifiedKeys = new Set();
 let snoozeTimers = {};
@@ -2607,6 +2709,9 @@ function dateKey(d) {
 renderAll();
 renderHistoryFilters();
 renderSettings();
+// Set initial greeting
+document.getElementById('pageTitle').textContent = getGreeting();
+document.getElementById('pageSubtitle').textContent = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
 // PWA install hint
 window.addEventListener('beforeinstallprompt', (e) => {
